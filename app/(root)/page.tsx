@@ -2,14 +2,18 @@
 
 import SearchForm from '@/components/SearchForm';
 import StartupCard, { StartupTypeCard } from '@/components/StartupCard';
-import { client } from '@/sanity/lib/client';
 import { STARTUPS_QUERY } from '@/sanity/lib/queries';
+import { sanityFetch, SanityLive } from '@/sanity/lib/live';
 
-export default async function Home({ searchParams }: { searchParams: { query?: string } }) {
-    const query = searchParams.query;
-
-    const posts = await client.fetch(STARTUPS_QUERY);
-    console.log(JSON.stringify(posts, null, 4));
+export default async function Home({
+    searchParams,
+}: {
+    searchParams: Promise<{ query?: string }>;
+}) {
+    const query = (await searchParams).query;
+    const params = { search: query || null };
+    const { data: posts } = await sanityFetch({ query: STARTUPS_QUERY, params });
+    // console.log(JSON.stringify(posts, null, 4));
     return (
         <main>
             <section className={'pink_container'}>
@@ -32,14 +36,15 @@ export default async function Home({ searchParams }: { searchParams: { query?: s
 
                 <ul className="mt-7 card_grid">
                     {posts?.length > 0 ? (
-                        posts.map((post: StartupTypeCard) => (
-                            <StartupCard key={post?._id} post={post} />
+                        posts.map((startup) => (
+                            <StartupCard key={startup?._id} {...(startup as StartupTypeCard)} />
                         ))
                     ) : (
-                        <p className={'no-result'}>No startups found</p>
+                        <p className="no-results">No startups found</p>
                     )}
                 </ul>
             </section>
+            <SanityLive />
         </main>
     );
 }

@@ -6,19 +6,17 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Author, Startup } from '@/sanity/types';
 
-export type StartupTypeCard = Omit<Startup, 'author'> & { author?: Author };
-const StartupCard = ({ post }: StartupTypeCard) => {
-    const {
-        _id,
-        _createdAt,
-        views,
-        author: { _id: authorId, name: authorName, image: authorImage },
-        title,
-        author,
-        description,
-        category,
-        image,
-    } = post;
+export type StartupTypeCard = Omit<Startup, 'author'> & { author: Author };
+const StartupCard = ({
+    _id,
+    _createdAt,
+    views,
+    author: { _id: authorId, name: authorName, image: authorImage },
+    title,
+    description,
+    category,
+    image,
+}: StartupTypeCard) => {
     return (
         <li className="startup-card group">
             <div className="flex-between">
@@ -38,9 +36,9 @@ const StartupCard = ({ post }: StartupTypeCard) => {
                         <h3 className="text-26-semibold line-clamp-1">{title}</h3>
                     </Link>
                 </div>
-                <Link href={`/user/${author?._id}`}>
+                <Link href={`/user/${authorName}`}>
                     <Image
-                        src={authorImage}
+                        src={authorImage ?? 'https://via.placeholder.com/48x48?text=Image'}
                         alt={authorName}
                         width={48}
                         height={48}
@@ -53,7 +51,7 @@ const StartupCard = ({ post }: StartupTypeCard) => {
                 <p className="startup-card_desc">{description}</p>
 
                 <Image
-                    src={image}
+                    src={image ?? 'https://via.placeholder.com/50x40?text=Image'}
                     alt="placeholder"
                     height={40}
                     width={50}
