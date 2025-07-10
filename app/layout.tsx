@@ -4,6 +4,7 @@ import './globals.css';
 import localFont from 'next/font/local';
 import React from 'react';
 import 'easymde/dist/easymde.min.css';
+import { Providers } from '@/app/providers';
 
 const workSans = localFont({
     src: [
@@ -68,7 +69,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={workSans.variable}>{children}</body>
+            <body className={workSans.variable}>
+                <Providers>{children}</Providers>
+            </body>
         </html>
     );
 }

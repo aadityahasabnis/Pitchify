@@ -36,9 +36,10 @@ const StartupCard = ({
                         <h3 className="text-26-semibold line-clamp-1">{title}</h3>
                     </Link>
                 </div>
-                <Link href={`/user/${authorName}`}>
+                <Link href={`/user/${authorId}`}>
                     <Image
                         src={authorImage ?? 'https://via.placeholder.com/48x48?text=Image'}
+                        // @ts-expect-error/ban-ts-comments
                         alt={authorName}
                         width={48}
                         height={48}

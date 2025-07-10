@@ -15,6 +15,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     const id = (await params).id;
     const post = await client.fetch(STARTUP_BY_ID_QUERY, { id });
     if (!post) return notFound();
+
     const parsedContent = md.render(post?.pitch || '');
     return (
         <>
@@ -25,7 +26,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             </section>
             <section className={'section_container'}>
                 <img
-                    src={post.image ?? 'https://via.placeholder.com/48x48?text=Image'}
+                    src={post.image ?? 'https://placehold.co/48x48'}
                     alt={'Thumbnail'}
                     className={'w-full h-auto rounded-xl'}
                 />
@@ -36,10 +37,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                             className={'flex gap-2 items-center mb-3'}
                         >
                             <Image
-                                src={
-                                    post.author?.image ??
-                                    'https://via.placeholder.com/48x48?text=Imagea'
-                                }
+                                src={post.author?.image ?? 'https://placehold.co/48x48'}
                                 alt={'Avatar'}
                                 width={64}
                                 height={64}
